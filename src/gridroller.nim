@@ -3,6 +3,8 @@ import random, strutils, strformat
 const
   Rows = 23
   Cols = 28
+  Max = 6
+  DisplayCols = 10
 
 randomize()
 
@@ -24,7 +26,7 @@ echo "+"
 for row in 0..<Rows:
   stdout.write align($row, 3) & " |"
   for col in 0..<Cols:
-    let roll = rand(1..6)
+    let roll = rand(1..Max)
     if roll == 1:
       stdout.write(" X ")
       ones.add((col, row))
@@ -38,15 +40,12 @@ for _ in 0..<Cols:
   stdout.write("---")
 echo "+"
 
-stdout.write("\n##### Cells #####\n")
-let cols = 10
-let rows = int((ones.len + cols - 1) / cols)
+let rows = int((ones.len + DisplayCols - 1) / DisplayCols)
 for row in 0..rows:
-  for col in 0..cols:
+  for col in 0..DisplayCols:
     let index = row + col * rows
     if index < ones.len:
       let (c,r) = ones[index]
-      # stdout.write "(", c, ", ", r, ") \t"
       stdout.write fmt"({c:>2},{r:>2})  "
     else: 
       stdout.write " ".repeat(10)
